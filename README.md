@@ -53,14 +53,11 @@ Open http://localhost:3000. The admin dashboard is at http://localhost:3000/admi
 
 Changing `ADMIN_PASSWORD` on Render and redeploying also changes the admin's password.
 
-### Keep it awake (free)
+### Free-plan sleeping (and the free-hours limit)
 
-Free Render sites sleep after about 15 minutes without visitors, and the first visit afterwards takes up to a minute. Free Supabase projects also pause after about a week without activity. Fix both with a free monitor:
+Free Render sites sleep after about 15 minutes without visitors, and the first visit afterwards takes up to a minute. Free Supabase projects also pause after about a week with no activity (you can restore them from the Supabase dashboard).
 
-1. Make a free account at uptimerobot.com.
-2. Add an HTTP monitor for `https://your-name.onrender.com/healthz`, checking every 5 minutes.
-
-That address wakes Render and touches the database, so neither goes to sleep. Check each service's current free-plan limits on its pricing page, because they change.
+You can stop the sleeping with a free monitor (for example uptimerobot.com) that opens `https://hollinno-ep.onrender.com/healthz` every 5 minutes. That address wakes Render and touches the database. **But** free Render plans share a monthly pool of running hours across the whole workspace (about 750 when this was written; check Render's pricing page). Two services kept awake all month use more than that, and Render then suspends them until the next month. So only ping on launch day or release week, or when the workspace has just this one free service.
 
 ## 4. First day with the client
 
