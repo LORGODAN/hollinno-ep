@@ -73,5 +73,5 @@ module.exports = {
       'Log in at {site} with this phone number, and keep the password private. Thank you for supporting Hollinno! \u{1F64F}',
   },
 
-  poweredBy: { text: 'Powered by Lorgodan', url: '' }, // add a url to make it a link
+  poweredBy: { text: 'Powered by Lorgodan', url: 'https://www.facebook.com/lorgodan.makhaura'}, // add a url to make it a link
 };
