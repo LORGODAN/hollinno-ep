@@ -416,23 +416,9 @@ app.get(
   wrap(async (req, res) => {
     const stats = must(await supabase.rpc('ep_admin_stats'));
     const tracks = must(await supabase.from('ep_track_stats').select('id,title,position,plays,downloads'));
-    const recentRows = must(
-      await supabase
-        .from('ep_downloads')
-        .select('id,created_at,ep_tracks(title),ep_users(name,phone)')
-        .order('created_at', { ascending: false })
-        .limit(50)
-    );
     res.json({
       stats,
       tracks,
-      recent: recentRows.map((r) => ({
-        id: r.id,
-        created_at: r.created_at,
-        track: r.ep_tracks ? r.ep_tracks.title : '(deleted track)',
-        name: r.ep_users ? r.ep_users.name : '(deleted user)',
-        phone: r.ep_users ? r.ep_users.phone : '',
-      })),
       price: config.ep.price,
       currency: config.ep.currency,
     });
@@ -536,7 +522,12 @@ app.get(
   '/api/admin/users',
   ...adminOnly,
   wrap(async (req, res) => {
-    const users = must(await supabase.from('ep_user_overview').select('*').order('created_at', { ascending: false }));
+    const users = must(
+      await supabase
+        .from('ep_user_overview')
+        .select('id,name,phone,status,reject_reason,created_at,approved_at')
+        .order('created_at', { ascending: false })
+    );
     res.json({ users });
   })
 );

@@ -70,11 +70,13 @@
     $('#loginView').hidden = false;
     $('#dashView').hidden = true;
     $('#logoutBtn').hidden = true;
+    $('#addSongTop').hidden = true;
   }
   function showDash() {
     $('#loginView').hidden = true;
     $('#dashView').hidden = false;
     $('#logoutBtn').hidden = false;
+    $('#addSongTop').hidden = false;
     setTab(state.tab);
   }
 
@@ -115,6 +117,11 @@
   /* ---------- tabs ---------- */
 
   document.querySelectorAll('[data-tab]').forEach((b) => b.addEventListener('click', () => setTab(b.dataset.tab)));
+  $('#addSongTop').addEventListener('click', () => setTab('tracks'));
+  $('#tabContent').addEventListener('click', (e) => {
+    const go = e.target.closest('[data-goto]');
+    if (go) setTab(go.dataset.goto);
+  });
 
   function setTab(tab) {
     state.tab = tab;
@@ -142,36 +149,29 @@
   /* ---------- overview ---------- */
 
   async function renderOverview() {
-    const { stats: s, tracks, recent, price } = await api('/api/admin/stats');
+    const { stats: s, tracks, price } = await api('/api/admin/stats');
     setBadge(s.fans_pending);
     const cards = [
+      ['Accounts created', s.fans_total, ''],
       ['Waiting for approval', s.fans_pending, 'hot'],
-      ['Approved fans', s.fans_approved, ''],
+      ['Approved', s.fans_approved, ''],
+      ['Total streams', s.plays_total, 'hot'],
       ['Total downloads', s.downloads_total, 'hot'],
-      ['Fans who downloaded', s.downloaders_unique, ''],
-      ['Total plays', s.plays_total, ''],
       ['Estimated income', money(s.fans_approved * price), ''],
-      ['Signed up, not paid', s.fans_registered, ''],
-      ['Rejected', s.fans_rejected, ''],
-      ['All sign-ups', s.fans_total, ''],
     ];
     $('#tabContent').innerHTML = `
       <div class="stat-grid">
         ${cards.map(([label, num, cls]) => `<div class="stat ${cls}"><div class="stat-num">${esc(num)}</div><div class="stat-label">${esc(label)}</div></div>`).join('')}
       </div>
-      <h2 class="sec-title">By song</h2>
+      <h2 class="sec-title">Streams and downloads by song</h2>
       <div class="rows">
-        ${tracks.length ? tracks.map((t) => `
-          <div class="row"><div class="row-main"><div class="row-title">${esc(t.position)}. ${esc(t.title)}</div></div>
-          <div class="row-meta nums">${esc(t.plays)} plays, ${esc(t.downloads)} downloads</div></div>`).join('') : '<p class="empty">No songs yet. Add them in the Songs tab.</p>'}
+        ${tracks.length
+          ? tracks.map((t) => `
+            <div class="row"><div class="row-main"><div class="row-title">${esc(t.position)}. ${esc(t.title)}</div></div>
+            <div class="row-meta nums">${esc(t.plays)} streams, ${esc(t.downloads)} downloads</div></div>`).join('')
+          : '<div class="empty">No songs yet.<br><br><button class="btn btn-primary" type="button" data-goto="tracks">Add your first song</button></div>'}
       </div>
-      <h2 class="sec-title">Latest downloads</h2>
-      <div class="rows">
-        ${recent.length ? recent.map((r) => `
-          <div class="row"><div class="row-main"><div class="row-title">${esc(r.name)}</div>
-          <div class="row-meta">${esc(nationalPhone(r.phone))}</div></div>
-          <div class="row-meta">${esc(r.track)}<br>${esc(fmtDate(r.created_at))}</div></div>`).join('') : '<p class="empty">No downloads yet.</p>'}
-      </div>`;
+      ${tracks.length ? '<p class="row-meta">These are totals only. The dashboard does not show who streamed or downloaded.</p>' : ''}`;
   }
 
   /* ---------- payments ---------- */
@@ -309,7 +309,7 @@
       <div class="row" data-id="${esc(u.id)}" data-name="${esc(u.name)}" data-phone="${esc(u.phone)}">
         <div class="row-main">
           <div class="row-title">${esc(u.name)} <span class="badge ${esc(u.status)}">${esc(u.status)}</span></div>
-          <div class="row-meta nums">${esc(nationalPhone(u.phone))}<br>Joined ${esc(fmtDate(u.created_at))}, ${esc(u.plays)} plays, ${esc(u.downloads)} downloads</div>
+          <div class="row-meta nums">${esc(nationalPhone(u.phone))}<br>Joined ${esc(fmtDate(u.created_at))}</div>
         </div>
         <div class="row-actions">
           <a class="btn btn-quiet btn-small" href="${esc(waLink(u.phone))}" target="_blank" rel="noopener">WhatsApp</a>
@@ -321,8 +321,8 @@
 
   function exportCsv() {
     const cell = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
-    const rows = [['Name', 'Phone', 'Status', 'Plays', 'Downloads', 'Joined']].concat(
-      state.users.map((u) => [u.name, '+' + u.phone, u.status, u.plays, u.downloads, u.created_at])
+    const rows = [['Name', 'Phone', 'Status', 'Joined']].concat(
+      state.users.map((u) => [u.name, '+' + u.phone, u.status, u.created_at])
     );
     const blob = new Blob([rows.map((r) => r.map(cell).join(',')).join('\n')], { type: 'text/csv' });
     const a = document.createElement('a');
@@ -370,6 +370,7 @@
   async function renderTracks() {
     const { tracks } = await api('/api/admin/tracks');
     $('#tabContent').innerHTML = `
+      <h2 class="sec-title" style="margin-top:0">Add a song</h2>
       <form class="upload-form" id="uploadForm" novalidate>
         <label>Song title
           <input name="title" type="text" maxlength="100" placeholder="e.g. Night Bus">
@@ -386,13 +387,13 @@
         <p class="form-error full" id="uploadError" role="alert"></p>
         <button class="btn btn-primary" id="uploadBtn" type="submit">Add song</button>
       </form>
-      <h2 class="sec-title">On the site now</h2>
+      <h2 class="sec-title">Songs on the site now</h2>
       <div class="rows">
         ${tracks.length ? tracks.map((t) => `
           <div class="row" data-track="${esc(t.id)}" data-title="${esc(t.title)}">
             <div class="row-main">
               <div class="row-title">${esc(t.position)}. ${esc(t.title)}</div>
-              <div class="row-meta">${t.has_preview ? 'Has a public preview' : 'No preview clip'}, ${esc(t.plays)} plays, ${esc(t.downloads)} downloads</div>
+              <div class="row-meta">${t.has_preview ? 'Has a public preview' : 'No preview clip'}, ${esc(t.plays)} streams, ${esc(t.downloads)} downloads</div>
             </div>
             <div class="row-actions"><button class="btn btn-danger btn-small" type="button" data-delete>Delete</button></div>
           </div>`).join('') : '<p class="empty">No songs yet. Add the first one above.</p>'}

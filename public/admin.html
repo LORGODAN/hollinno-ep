@@ -12,6 +12,7 @@
   <header class="topbar">
     <span class="brand" id="adminBrand">Admin</span>
     <div class="topbar-actions">
+      <button class="btn btn-primary" id="addSongTop" type="button" hidden>Add a song</button>
       <a class="btn btn-quiet" href="/" target="_blank" rel="noopener">View site</a>
       <button class="btn btn-quiet" id="logoutBtn" type="button" hidden>Log out</button>
     </div>
@@ -36,8 +37,8 @@
       <nav class="admin-tabs" role="tablist" aria-label="Dashboard sections">
         <button type="button" role="tab" data-tab="overview" aria-selected="true">Overview</button>
         <button type="button" role="tab" data-tab="payments" aria-selected="false">Payments <span class="badge-count" id="pendingBadge" hidden>0</span></button>
-        <button type="button" role="tab" data-tab="fans" aria-selected="false">Fans</button>
-        <button type="button" role="tab" data-tab="tracks" aria-selected="false">Songs</button>
+        <button type="button" role="tab" data-tab="fans" aria-selected="false">Accounts</button>
+        <button type="button" role="tab" data-tab="tracks" aria-selected="false">Upload songs</button>
       </nav>
       <div id="tabContent" aria-live="polite"></div>
     </section>

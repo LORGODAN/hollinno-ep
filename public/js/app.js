@@ -124,12 +124,14 @@
     const hello = $('#helloName');
     hello.hidden = !u;
     hello.textContent = u ? u.name : '';
+    $('#adminLink').hidden = !(u && u.role === 'admin');
   }
 
   function renderHero() {
     const u = state.user;
     const btn = $('#heroCta');
-    if (!u) btn.textContent = `Get the EP for ${money(state.cfg.ep.price)}`;
+    if (u && u.role === 'admin') btn.textContent = 'Open the admin dashboard';
+    else if (!u) btn.textContent = `Get the EP for ${money(state.cfg.ep.price)}`;
     else if (u.status === 'approved') btn.textContent = 'Listen and download';
     else if (u.status === 'pending') btn.textContent = 'Payment is being checked';
     else btn.textContent = 'Pay and unlock the EP';
@@ -145,6 +147,14 @@
     }
     box.hidden = false;
     const { ep, payment } = state.cfg;
+
+    if (u.role === 'admin') {
+      box.innerHTML = `
+        <div class="status-line"><span class="dot ok"></span> You are logged in as admin</div>
+        <p class="sub">Add songs, approve payments and see the numbers in the dashboard.</p>
+        <p><a class="btn btn-primary" href="/admin.html">Open the admin dashboard</a></p>`;
+      return;
+    }
 
     if (u.status === 'approved') {
       box.innerHTML = `
@@ -419,6 +429,10 @@
     btn.disabled = true;
     try {
       const r = await api(authMode === 'register' ? '/api/register' : '/api/login', { json: payload });
+      if (r.user.role === 'admin') {
+        location.href = '/admin.html';
+        return;
+      }
       state.user = r.user;
       form.reset();
       dlg.close();
@@ -444,6 +458,7 @@
   $('#heroCta').addEventListener('click', () => {
     const u = state.user;
     if (!u) openAuth('register');
+    else if (u.role === 'admin') location.href = '/admin.html';
     else scrollToEl(u.status === 'approved' ? '#tracks' : '#account');
   });
 
