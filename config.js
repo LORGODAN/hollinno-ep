@@ -6,7 +6,7 @@
  */
 module.exports = {
   artist: {
-    name: 'Kolino', // read from the cover art: change it here if the spelling is different
+    name: 'Hollinno', // as written by the client; change it here if the spelling is different
     tagline: 'The new EP. Stream it, and keep it.',
     bio: 'Write the artist bio here. Two or three short paragraphs work best: where he is from, what he sounds like, and what this EP is about.\n\nSeparate paragraphs with a blank line.',
   },

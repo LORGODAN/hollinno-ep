@@ -2,7 +2,7 @@
 # All data (fans, payments, songs, screenshots, stats) lives in Supabase, so redeploys and restarts lose nothing.
 services:
   - type: web
-    name: kolino-ep
+    name: hollinno-ep
     runtime: node
     plan: free
     buildCommand: npm install

@@ -48,7 +48,7 @@ Open http://localhost:3000. The admin dashboard is at http://localhost:3000/admi
    - `SUPABASE_SERVICE_KEY`: the service_role / secret key
    - `ADMIN_PHONE` and `ADMIN_PASSWORD`: the admin's login (choose a strong password)
    `JWT_SECRET` is generated for you.
-3. Deploy. Your site is at `https://kolino-ep.onrender.com` (Render adds letters if the name is taken), and the admin dashboard is at `/admin.html`.
+3. Deploy. Your site is at `https://hollinno-ep.onrender.com` (Render adds letters if the name is taken), and the admin dashboard is at `/admin.html`.
 4. From now on, every push to GitHub redeploys automatically.
 
 Changing `ADMIN_PASSWORD` on Render and redeploying also changes the admin's password.
