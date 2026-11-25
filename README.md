@@ -96,3 +96,9 @@ The same transaction ID cannot be submitted twice, which stops one payment being
 - Price, numbers, colours, text, social links: `config.js`.
 - To add another social network, add a line to `socials` using one of: facebook, instagram, tiktok, youtube, x, whatsapp, spotify, applemusic, soundcloud, audiomack, snapchat, telegram.
 - Phone numbers are Malawi numbers (`0999 123 456` or `+265 999 123 456`). Another country needs a small change in `normalizePhone` in `server.js`.
+
+## Poster and ZIP (added)
+
+- Approved fans see **Make your thank-you poster** on the site: they add a photo, move and zoom it, and download a 1080 x 1920 image for their WhatsApp status. The photo stays on their phone and is never uploaded.
+- Approved fans can also download the whole EP as one ZIP (`/api/download-all`). Each song counts as one download.
+- Price is MK 25,000, set in `config.js > ep.price`. Payment numbers are in `config.js > payment.methods` (`copy` is what the Copy button copies; `accountName` is optional).

@@ -7,16 +7,21 @@
 module.exports = {
   artist: {
     name: 'Hollinno', // as written by the client; change it here if the spelling is different
-    tagline: 'The new EP. Stream it, and keep it.',
-    bio: 'Write the artist bio here. Two or three short paragraphs work best: where he is from, what he sounds like, and what this EP is about.\n\nSeparate paragraphs with a blank line.',
+    tagline: 'Sweet afro melodies that carry you from dreams to reality.',
+    bio:
+      'Hollinno, whose real name is Innocent Kamtuwanje, was born and raised in Malawi and is based in Mgona, Lilongwe. ' +
+      'His afro sound is sweet and melodic, made to awaken souls, and his mission is to take Malawian Afro to the next level.\n\n' +
+      'Dreams & Reality is about the two emotional sides of life: the dreams we imagine and the realities we live. ' +
+      'Every song on the EP follows the road from imagination to real life. Hollinno has worked hard to connect his own dreams and realities with yours. ' +
+      'This EP is his emotional breakthrough, and his way of giving people a chance to get to know themselves.',
   },
 
   ep: {
     title: 'Dreams & Reality',
     year: '2026',
     cover: '/assets/cover.jpg',
-    price: 5000, // one-time price
-    currency: 'MWK',
+    price: 25000, // one-time price
+    currency: 'MK',
   },
 
   // Colours taken from the cover art: pure black, charcoal, silver and white.
@@ -32,11 +37,12 @@ module.exports = {
   payment: {
     instructions:
       'Send the exact amount to any one of the accounts below. Then enter the transaction ID from your confirmation message and upload a screenshot of it.',
-    // id must stay unique and lowercase. Change the label, number and account name.
+    // id must stay unique and lowercase.
+    // number = what fans see. copy = what the Copy button copies (optional). accountName is optional too.
     methods: [
-      { id: 'tnm', label: 'TNM Mpamba', number: '0888 000 000', accountName: 'Account Name' },
-      { id: 'airtel', label: 'Airtel Money', number: '0999 000 000', accountName: 'Account Name' },
-      { id: 'bank', label: 'Bank transfer', number: 'Bank Name, Account 0000000000', accountName: 'Account Name' },
+      { id: 'airtel', label: 'Airtel Money', number: '0992 647 076', copy: '0992647076' },
+      { id: 'tnm', label: 'TNM Mpamba', number: '0887 874 640', copy: '0887874640' },
+      { id: 'bank', label: 'National Bank of Malawi', number: 'Account 1009451745', copy: '1009451745', accountName: 'Chrissy Kamtuwanje' },
     ],
   },
 
@@ -44,22 +50,27 @@ module.exports = {
   // facebook, instagram, tiktok, youtube, x, whatsapp, spotify, applemusic, soundcloud, audiomack, snapchat, telegram
   // Delete a line to hide it. Add your own using the same format.
   socials: [
-    { platform: 'facebook', url: 'https://facebook.com/' },
-    { platform: 'instagram', url: 'https://instagram.com/' },
-    { platform: 'tiktok', url: 'https://tiktok.com/' },
-    { platform: 'youtube', url: 'https://youtube.com/' },
-    { platform: 'whatsapp', url: 'https://wa.me/265999000000' },
+    { platform: 'facebook', url: 'https://www.facebook.com/share/19rJ8eeDut/' },
+    { platform: 'audiomack', url: 'https://audiomack.com/mrmellanin' },
+    { platform: 'youtube', url: 'https://youtube.com/@hollinno' },
+    { platform: 'x', url: 'https://x.com/hollinno' },
+    { platform: 'tiktok', url: 'https://www.tiktok.com/@hollinno_mrmellanin' },
+    { platform: 'whatsapp', url: 'https://wa.me/265992647076' },
   ],
 
   // WhatsApp messages the admin sends from the dashboard.
   // {name} {ep} {site} {reason} {password} are filled in automatically.
   messages: {
     approved:
-      'Hi {name}, your payment for "{ep}" is approved. Log in at {site} with your phone number to stream and download the EP. Enjoy!',
+      'Hi {name}! \u{1F64F} Thank you so much for getting "{ep}" by Hollinno. Your payment is confirmed and the whole EP is now yours.\n\n' +
+      'Log in at {site} with this phone number to stream it, download the songs, or get the full ZIP.\n\n' +
+      'There is also a thank-you poster waiting for you on the same page. Add your photo, save it and put it on your WhatsApp status so your friends can get the EP too. Your support means everything! \u{1F525}',
     rejected:
-      'Hi {name}, we could not confirm your payment for "{ep}". Reason: {reason}. Please log in at {site} and upload your payment proof again.',
+      'Hi {name}, thank you for supporting "{ep}" by Hollinno. \u{1F64F} We could not confirm your payment yet. Reason: {reason}.\n\n' +
+      'Please log in at {site} and send your payment proof again. If you need help, just reply here and we will sort it out together.',
     reset:
-      'Hi {name}, your new password for "{ep}" is: {password}\nLog in at {site} with this phone number.',
+      'Hi {name}, here is your new password for "{ep}": {password}\n\n' +
+      'Log in at {site} with this phone number, and keep the password private. Thank you for supporting Hollinno! \u{1F64F}',
   },
 
   poweredBy: { text: 'Powered by Lorgodan', url: '' }, // add a url to make it a link

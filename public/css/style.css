@@ -422,3 +422,23 @@ form .btn-primary { width: 100%; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* ---------- thank-you poster maker ---------- */
+.zip-row { margin: 1.1rem 0 0; }
+.poster-wrap { display: grid; gap: 0.9rem; margin-top: 1.2rem; }
+.poster-wrap label { margin-bottom: 0; }
+.poster-preview { position: relative; width: min(100%, 21rem); margin: 0 auto; }
+.poster-preview canvas { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 4px; background: #000; }
+/* The draggable area sits exactly over the photo frame (90, 500, 900 x 830 on a 1080 x 1920 poster). */
+.poster-drag { position: absolute; left: 8.3333%; top: 26.0417%; width: 83.3333%; height: 43.2292%; touch-action: none; cursor: grab; }
+.poster-drag:active { cursor: grabbing; }
+.poster-wrap .check { display: flex; align-items: center; gap: 0.6rem; font-weight: 500; }
+.poster-wrap .check input { width: 1.25rem; height: 1.25rem; accent-color: var(--accent); flex: none; }
+.poster-wrap input[type="range"] { display: block; width: 100%; margin-top: 0.5rem; accent-color: var(--accent); height: 1.6rem; }
+.poster-wrap .hint { margin: 0; }
+.poster-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+@media (min-width: 52rem) {
+  .poster-wrap { grid-template-columns: 21rem minmax(0, 26rem); grid-template-rows: repeat(6, max-content) 1fr; column-gap: 3rem; align-items: start; }
+  .poster-wrap > * { grid-column: 2; }
+  .poster-wrap > .poster-preview { grid-column: 1; grid-row: 1 / -1; margin: 0; }
+}

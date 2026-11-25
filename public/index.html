@@ -41,7 +41,14 @@
     <section class="panel" id="tracks">
       <h2 id="tracksHeading">Preview the EP</h2>
       <p class="sub" id="tracksSub"></p>
+      <p class="zip-row" id="zipRow" hidden><a class="btn btn-primary" href="/api/download-all">Download the whole EP (ZIP)</a></p>
       <ol class="tracklist" id="trackList"></ol>
+    </section>
+
+    <section class="panel poster" id="posterPanel" hidden>
+      <h2>Make your thank-you poster</h2>
+      <p class="sub">Add your photo, save the poster and put it on your WhatsApp status. Your photo stays on your phone and is never uploaded.</p>
+      <div id="posterBody"></div>
     </section>
 
     <section class="panel steps" id="howItWorks">
@@ -49,7 +56,7 @@
       <ol>
         <li><span><strong>Create an account.</strong> Your name, phone number and a password. No email needed.</span></li>
         <li><span><strong>Pay and upload proof.</strong> Send the money, then enter the transaction ID and upload a screenshot.</span></li>
-        <li><span><strong>Wait for the WhatsApp message.</strong> Once your payment is checked you can stream and download every song, as many times as you like.</span></li>
+        <li><span><strong>Wait for the WhatsApp message.</strong> Once your payment is checked you can stream every song, download them one by one or as a ZIP, and make a thank-you poster for your status.</span></li>
       </ol>
     </section>
 
@@ -106,6 +113,7 @@
   <div class="toast" id="toast" role="status"></div>
 
   <script src="/js/icons.js"></script>
+  <script src="/js/poster.js"></script>
   <script src="/js/app.js"></script>
 </body>
 </html>

@@ -84,7 +84,7 @@
     $('#epTitle').textContent = ep.title;
     $('#artistBy').textContent = artist.name;
     $('#tagline').textContent = artist.tagline || '';
-    $('#priceNote').textContent = 'One payment. Stream and download as much as you like.';
+    $('#priceNote').textContent = 'One payment. Stream online, or download the songs and the whole EP as a ZIP.';
 
     $('#aboutHeading').textContent = `About ${artist.name}`;
     const paragraphs = String(artist.bio || '').split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
@@ -159,7 +159,7 @@
     if (u.status === 'approved') {
       box.innerHTML = `
         <div class="status-line"><span class="dot ok"></span> You are in, ${esc(u.name.split(' ')[0])}</div>
-        <p class="sub">Play any song below, or download it to keep. Downloads are unlimited.</p>`;
+        <p class="sub">Play any song below, download them to keep, or get the whole EP as one ZIP file. Downloads are unlimited. Scroll down to make your thank-you poster.</p>`;
       return;
     }
 
@@ -185,8 +185,8 @@
           <span class="method-card">
             <span class="method-name">${esc(m.label)}</span>
             <span class="method-number">${esc(m.number)}</span>
-            <span class="method-holder">${esc(m.accountName)}</span>
-            <button class="btn btn-quiet btn-small copy-btn" type="button" data-copy="${esc(m.number)}">Copy</button>
+            ${m.accountName ? `<span class="method-holder">${esc(m.accountName)}</span>` : ''}
+            <button class="btn btn-quiet btn-small copy-btn" type="button" data-copy="${esc(m.copy || m.number)}">Copy</button>
           </span>
         </label>`
       )
@@ -243,6 +243,7 @@
       : anyPreview
         ? 'Tap play for a short preview. The full songs unlock after payment.'
         : 'Previews are coming soon.';
+    $('#zipRow').hidden = !(approved && state.tracks.length);
     const list = $('#trackList');
     if (!state.tracksLoaded) {
       list.innerHTML = '';
@@ -272,6 +273,13 @@
     renderHero();
     renderAccount();
     renderTracks();
+    renderPoster();
+  }
+
+  function renderPoster() {
+    const show = isApproved() && window.EPPoster;
+    $('#posterPanel').hidden = !show;
+    if (show) window.EPPoster.mount($('#posterBody'), { cfg: state.cfg, user: state.user, toast });
   }
 
   /* ---------- player ---------- */

@@ -6,6 +6,9 @@ const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
+const { ZipArchive } = require('archiver');
+const fs = require('fs');
+const { Readable } = require('stream');
 const path = require('path');
 const crypto = require('crypto');
 const { createClient } = require('@supabase/supabase-js');
@@ -405,6 +408,57 @@ app.get(
       await supabase.from('ep_downloads').insert({ user_id: req.user.id, track_id: track.id });
     }
     res.redirect(data.signedUrl);
+  })
+);
+
+app.get(
+  '/api/download-all',
+  loadUser,
+  requireApproved,
+  wrap(async (req, res) => {
+    const tracks = must(
+      await supabase.from('ep_tracks').select('id,title,position,audio_path').order('position', { ascending: true })
+    );
+    if (!tracks.length) return bad(res, 'No songs have been added yet.', 404);
+
+    // Get every link before sending headers, so a failure still returns a normal error.
+    const items = [];
+    for (const [i, t] of tracks.entries()) {
+      const { data, error } = await supabase.storage.from('songs').createSignedUrl(t.audio_path, 900);
+      if (error) throw error;
+      const num = String(i + 1).padStart(2, '0');
+      items.push({ url: data.signedUrl, name: `${num} - ${safeName(t.title)}${path.extname(t.audio_path)}`, id: t.id });
+    }
+
+    const zipName = safeName(`${config.artist.name} - ${config.ep.title}`) || 'EP';
+    res.setHeader('Content-Type', 'application/zip');
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename="${zipName.replace(/[^\x20-\x7e]/g, '_')}.zip"; filename*=UTF-8''${encodeURIComponent(zipName)}.zip`
+    );
+
+    const archive = new ZipArchive({ store: true });
+    archive.on('error', () => res.destroy());
+    res.on('close', () => archive.abort());
+    archive.pipe(res);
+
+    const coverFile = path.join(__dirname, 'public', String(config.ep.cover || '').replace(/^\/+/, ''));
+    if (config.ep.cover && fs.existsSync(coverFile)) {
+      archive.file(coverFile, { name: `Cover${path.extname(coverFile)}` });
+    }
+    for (const it of items) {
+      const r = await fetch(it.url);
+      if (!r.ok || !r.body) {
+        archive.abort();
+        return res.destroy();
+      }
+      archive.append(Readable.fromWeb(r.body), { name: it.name });
+    }
+
+    if (req.user.role !== 'admin') {
+      await supabase.from('ep_downloads').insert(items.map((it) => ({ user_id: req.user.id, track_id: it.id })));
+    }
+    await archive.finalize();
   })
 );
 
