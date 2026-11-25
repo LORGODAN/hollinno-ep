@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#000000">
+  <title>Admin</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <span class="brand" id="adminBrand">Admin</span>
+    <div class="topbar-actions">
+      <a class="btn btn-quiet" href="/" target="_blank" rel="noopener">View site</a>
+      <button class="btn btn-quiet" id="logoutBtn" type="button" hidden>Log out</button>
+    </div>
+  </header>
+
+  <div class="admin-wrap">
+    <section class="login-card" id="loginView" hidden>
+      <h1>Admin login</h1>
+      <form id="loginForm" novalidate>
+        <label>Phone number
+          <input name="phone" type="tel" inputmode="tel" autocomplete="username" required>
+        </label>
+        <label>Password
+          <input name="password" type="password" autocomplete="current-password" required>
+        </label>
+        <p class="form-error" id="loginError" role="alert"></p>
+        <button class="btn btn-primary" type="submit">Log in</button>
+      </form>
+    </section>
+
+    <section id="dashView" hidden>
+      <nav class="admin-tabs" role="tablist" aria-label="Dashboard sections">
+        <button type="button" role="tab" data-tab="overview" aria-selected="true">Overview</button>
+        <button type="button" role="tab" data-tab="payments" aria-selected="false">Payments <span class="badge-count" id="pendingBadge" hidden>0</span></button>
+        <button type="button" role="tab" data-tab="fans" aria-selected="false">Fans</button>
+        <button type="button" role="tab" data-tab="tracks" aria-selected="false">Songs</button>
+      </nav>
+      <div id="tabContent" aria-live="polite"></div>
+    </section>
+  </div>
+
+  <dialog id="rejectDialog">
+    <form method="dialog" class="dialog-close"><button class="icon-btn" aria-label="Close">&times;</button></form>
+    <h3>Reject this payment</h3>
+    <p class="hint">The fan sees this reason and can upload new proof.</p>
+    <div class="chips" id="rejectChips"></div>
+    <label>Reason
+      <input type="text" id="rejectReason" maxlength="200" placeholder="Why was it rejected?">
+    </label>
+    <div class="dialog-actions">
+      <button class="btn btn-danger" id="rejectConfirm" type="button">Reject payment</button>
+    </div>
+  </dialog>
+
+  <dialog id="resultDialog">
+    <form method="dialog" class="dialog-close"><button class="icon-btn" aria-label="Close">&times;</button></form>
+    <h3 id="resultTitle"></h3>
+    <div id="resultBody"></div>
+  </dialog>
+
+  <dialog id="imageDialog" class="lightbox">
+    <form method="dialog" class="dialog-close"><button class="icon-btn" aria-label="Close">&times;</button></form>
+    <img id="imageFull" alt="Payment screenshot">
+  </dialog>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

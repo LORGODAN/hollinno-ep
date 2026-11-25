@@ -1,0 +1,26 @@
+# Render Blueprint: tells Render how to run this site. Secrets are NOT stored here.
+# All data (fans, payments, songs, screenshots, stats) lives in Supabase, so redeploys and restarts lose nothing.
+services:
+  - type: web
+    name: kolino-ep
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SUPABASE_URL
+        sync: false          # you type this in the Render dashboard
+      - key: SUPABASE_SERVICE_KEY
+        sync: false          # secret: you type this in the Render dashboard
+      - key: JWT_SECRET
+        generateValue: true  # Render makes a random one
+      - key: ADMIN_NAME
+        value: Admin
+      - key: ADMIN_PHONE
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false          # secret: you choose it
