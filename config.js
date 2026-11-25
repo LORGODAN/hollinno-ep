@@ -13,7 +13,7 @@ module.exports = {
       'His afro sound is sweet and melodic, made to awaken souls, and his mission is to take Malawian Afro to the next level.\n\n' +
       'Dreams & Reality is about the two emotional sides of life: the dreams we imagine and the realities we live. ' +
       'Every song on the EP follows the road from imagination to real life. Hollinno has worked hard to connect his own dreams and realities with yours. ' +
-      'This EP is his emotional breakthrough, and his way of giving people a chance to get to know themselves.' + 
+      'This EP is his emotional breakthrough, and his way of giving people a chance to get to know themselves.\n\n' + 
       'Now currently am working with Jack Force and 2 speaker as my executive producers and my team. They putted much effort and they played a big role on the project.'
   },
 
