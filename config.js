@@ -63,8 +63,9 @@ module.exports = {
   // {name} {ep} {site} {reason} {password} are filled in automatically.
   messages: {
     approved:
-      'Hi {name}! \u{1F64F} Thank you so much for getting "{ep}" by Hollinno. Your payment is confirmed and the whole EP is now yours.\n\n' +
-      'Log in at {site} with this phone number to stream it, download the songs, or get the full ZIP.\n\n' +
+      'Hi {name}! \u{1F64F} Your payment has been approved. Thank you so much for getting "{ep}" by Hollinno. You can now listen to the EP!\n\n' +
+      '\u{1F3A7} Listen here:\n{site}\n\n' +
+      'Log in with this phone number and your password. You can stream it, download the songs, or get the full ZIP.\n\n' +
       'There is also a thank-you poster waiting for you on the same page. Add your photo, save it and put it on your WhatsApp status so your friends can get the EP too. Your support means everything! \u{1F525}',
     rejected:
       'Hi {name}, thank you for supporting "{ep}" by Hollinno. \u{1F64F} We could not confirm your payment yet. Reason: {reason}.\n\n' +

@@ -312,7 +312,7 @@
           <div class="row-meta nums">${esc(nationalPhone(u.phone))}<br>Joined ${esc(fmtDate(u.created_at))}</div>
         </div>
         <div class="row-actions">
-          <a class="btn btn-quiet btn-small" href="${esc(waLink(u.phone))}" target="_blank" rel="noopener">WhatsApp</a>
+          <a class="btn btn-quiet btn-small" href="${esc(waLink(u.phone, u.status === 'approved' ? fill(state.cfg.messages.approved, waVars({ name: String(u.name).split(' ')[0] })) : ''))}" target="_blank" rel="noopener">${u.status === 'approved' ? 'Send EP link' : 'WhatsApp'}</a>
           <button class="btn btn-quiet btn-small" type="button" data-reset>Reset password</button>
           ${u.status === 'approved' ? '<button class="btn btn-danger btn-small" type="button" data-revoke>Remove access</button>' : ''}
         </div>
